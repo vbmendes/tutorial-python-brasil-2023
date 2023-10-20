@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: documentation
+  name: documentation
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: documentation
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: documentation
+    spec:
+      containers:
+        - args:
+            - mkdocs
+            - serve
+          image: documentation
+          name: documentation
+          ports:
+            - containerPort: 8001
+          resources: {}
+      restartPolicy: Always
+status: {}
