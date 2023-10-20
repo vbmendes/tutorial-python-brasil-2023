@@ -1,7 +1,17 @@
 version: '3'
 services:
   postgres:
-    image: postgres:11.6
+    image: postgres:12.16
+    volumes:
+      - postgresql_data:/var/lib/postgresql-receitas/data
+    hostname: postgres
+    environment:
+      - POSTGRES_DB=receitas
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - PGPASSWORD=postgres
+    ports:
+      - "${DB_PORT}:5432"
   web:
     restart: always
     environment:
@@ -11,8 +21,6 @@ services:
       bash -c "python wait_for_postgres.py &&
                ./manage.py migrate &&
                ./manage.py runserver 0.0.0.0:8000"
-    volumes:
-      - ./:/code
     ports:
       - "8000:8000"
     depends_on:
@@ -21,7 +29,8 @@ services:
     restart: always
     build: ./
     command: "mkdocs serve"
-    volumes:
-      - ./:/code
     ports:
       - "8001:8001"
+
+volumes:
+  postgresql_data:
