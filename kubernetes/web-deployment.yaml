@@ -34,7 +34,8 @@ spec:
           env:
             - name: DJANGO_SECRET_KEY
               value: local
-          image: web
+          image: tutorial_python_brasil_2023
+          imagePullPolicy: Never
           name: web
           ports:
             - containerPort: 8000
