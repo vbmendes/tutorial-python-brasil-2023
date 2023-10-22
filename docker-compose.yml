@@ -30,7 +30,22 @@ services:
     build: ./
     command: "mkdocs serve"
     ports:
-      - "8001:8001"
+      - "8080:8080"
+  locust_master:
+    image: locustio/locust
+    ports:
+      - "8089:8089"
+    volumes:
+      - ./locust/:/mnt/locust
+    command: -f /mnt/locust/locustfile.py --master -H http://web:8000
+    depends_on:
+      - web
+
+  locust_worker:
+    image: locustio/locust
+    volumes:
+      - ./locust/:/mnt/locust
+    command: -f /mnt/locust/locustfile.py --worker --master-host locust_master
 
 volumes:
   postgresql_data:
