@@ -9,11 +9,15 @@ metadata:
     io.kompose.service: web
   name: web
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       io.kompose.service: web
-  strategy: {}
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
   template:
     metadata:
       annotations:
@@ -30,7 +34,7 @@ spec:
             - |-
               python wait_for_postgres.py &&
                        ./manage.py migrate &&
-                       ./manage.py runserver 0.0.0.0:8000
+                       gunicorn --bind 0.0.0.0:8000 --access-logfile - receitas.wsgi:application
           env:
             - name: DJANGO_SECRET_KEY
               value: local
@@ -38,7 +42,20 @@ spec:
           imagePullPolicy: Never
           name: web
           ports:
-            - containerPort: 8000
+            - name: gunicorn
+              containerPort: 8000
           resources: {}
+          readinessProbe:
+            initialDelaySeconds: 10
+            httpGet:
+              port: gunicorn
+              path: /
+          livenessProbe:
+            initialDelaySeconds: 10
+            exec:
+              command:
+                - /bin/sh
+                - -c 
+                - "pidof -x gunicorn"
       restartPolicy: Always
 status: {}
