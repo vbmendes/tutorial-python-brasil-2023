@@ -22,6 +22,7 @@ class Common(Configuration):
         "django_filters",  # for filtering rest endpoints
         # Your apps
         "receitas.users",
+        "receitas.receitas",
         # Django Health Check
         "health_check",
         "health_check.db",
