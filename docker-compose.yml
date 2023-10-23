@@ -25,6 +25,10 @@ services:
       - "8000:8000"
     depends_on:
       - postgres
+    volumes:
+      - .:/code:z
+    stdin_open: true
+    tty: true
   documentation:
     restart: always
     build: ./
