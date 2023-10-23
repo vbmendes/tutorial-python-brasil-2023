@@ -34,3 +34,6 @@ django-storages==1.14.2
 boto3==1.28.66
 
 django-health-check==3.17.0
+
+pytest==7.4.2
+pytest-django==4.5.2
