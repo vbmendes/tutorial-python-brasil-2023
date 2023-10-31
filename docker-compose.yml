@@ -29,12 +29,6 @@ services:
       - .:/code:z
     stdin_open: true
     tty: true
-  documentation:
-    restart: always
-    build: ./
-    command: "mkdocs serve"
-    ports:
-      - "8080:8080"
   locust_master:
     image: locustio/locust
     ports:
