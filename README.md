@@ -16,6 +16,10 @@ Tutorial curto ministrado na Python Brasil 2023. Deploy e release contínuos em 
 # Execução com docker-compose
 
 ```sh
+cp .env-sample .env
+```
+
+```sh
 docker build --tag=tutorial-python-brasil-2023/receitas .
 ```
 
@@ -117,3 +121,20 @@ Verifique que o estado atual do switch mudou para `true`: http://{{HOST_WEB}}:{{
 Podemos usar esse switch tanto pra controle de fluxo no próprio Django, quanto para o frontend.
 
 # Migrations
+
+Adicione um campo `publicada = models.BooleanField(default=True)`
+
+Crie a migration:
+
+```sh
+make makemigrations
+```
+
+Verifique o plano de execução dela:
+
+```sh
+./bin/run.sh python manage.py sqlmigrate receitas 0002
+```
+
+Veja que o plano é fazer drop do default logo depois que criar a coluna.
+
