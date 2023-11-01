@@ -34,6 +34,7 @@ spec:
             - |-
               python wait_for_postgres.py &&
                        ./manage.py migrate &&
+                       ./manage.py collectstatic --no-input &&
                        gunicorn --bind 0.0.0.0:8000 --access-logfile - receitas.wsgi:application
           env:
             - name: DJANGO_SECRET_KEY

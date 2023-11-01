@@ -12,3 +12,6 @@ restart_web:
 
 dashboard:
 	minikube dashboard
+
+createsuperuser:
+	kubectl exec -it deploy/web -- python manage.py createsuperuser

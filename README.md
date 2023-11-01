@@ -39,3 +39,79 @@ docker-compose restart web
 ```
 
 Verifique que parte das requisições falharam. O motivo da falha pode ser visto na aba "Failures"
+
+# Execução com Kubernetes
+
+```sh
+minikube delete # ensure any previous cluster get deleted
+```
+
+```sh
+minikube start
+```
+
+```sh
+eval $(minikube docker-env) # make current session use docker inside minikube, need to run for every terminal session or minikube restart
+```
+
+```sh
+docker build --tag tutorial_python_brasil_2023 .
+```
+
+```sh
+kubectl apply -f kubernetes
+```
+
+```sh
+kubectl get pods
+```
+
+```sh
+kubectl apply -f kubernetes/locust
+```
+
+```sh
+minikube service web --url
+```
+
+Copie a URL retornada para usar no parâmetro "Host" do Locust.
+
+```sh
+minikube service locust-service
+```
+
+Inicie o teste do locust com os seguintes parâmetros:
+
+- Number of users: 10
+- Spawn rate: 10
+- Host: URL do service web 
+
+Verifique na aba "Statistics" que todas as requisições são bem sucedidas e então simule um deploy do componente web: 
+
+```sh
+kubectl rollout restart deployment web
+```
+
+Execute o comando abaixo repetidas vezes para ver os pods sendo criados e terminados sem gerar interrupções.
+
+```sh
+kubectl get pods
+```
+
+Verifique que não houveram falhas no locust.
+
+# Feature flags
+
+Verifique que o estado atual do switch é `false`: http://192.168.49.2:31996/switches/
+
+Para habilitá-lo, crie um superusuário:
+
+```sh
+make createsuperuser
+```
+
+Vá até o admin de switches: http://192.168.49.2:31996/admin/waffle/switch/ e crie o switch `MY_AWESOME_SWITCH` marcando o checkbox `Active`.
+
+Verifique que o estado atual do switch mudou para `true`: http://192.168.49.2:31996/switches/
+
+Podemos usar esse switch tanto pra controle de fluxo no próprio Django, quanto para o frontend.

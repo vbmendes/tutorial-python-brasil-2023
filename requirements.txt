@@ -2,6 +2,7 @@
 pytz==2023.3
 Django==4.2.6
 django-configurations==2.4.1
+django-waffle==4.0.0
 gunicorn==21.2.0
 newrelic==9.1.1
 
@@ -37,3 +38,5 @@ django-health-check==3.17.0
 
 pytest==7.4.2
 pytest-django==4.5.2
+
+whitenoise==6.6.0
