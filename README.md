@@ -102,7 +102,7 @@ Verifique que não houveram falhas no locust.
 
 # Feature flags
 
-Verifique que o estado atual do switch é `false`: http://192.168.49.2:31996/switches/
+Verifique que o estado atual do switch é `false`: http://{{HOST_WEB}}:{{PORTA_WEB}}/switches/
 
 Para habilitá-lo, crie um superusuário:
 
@@ -110,8 +110,10 @@ Para habilitá-lo, crie um superusuário:
 make createsuperuser
 ```
 
-Vá até o admin de switches: http://192.168.49.2:31996/admin/waffle/switch/ e crie o switch `MY_AWESOME_SWITCH` marcando o checkbox `Active`.
+Vá até o admin de switches: http://{{HOST_WEB}}:{{PORTA_WEB}}/admin/waffle/switch/ e crie o switch `MY_AWESOME_SWITCH` marcando o checkbox `Active`.
 
-Verifique que o estado atual do switch mudou para `true`: http://192.168.49.2:31996/switches/
+Verifique que o estado atual do switch mudou para `true`: http://{{HOST_WEB}}:{{PORTA_WEB}}/switches/
 
 Podemos usar esse switch tanto pra controle de fluxo no próprio Django, quanto para o frontend.
+
+# Migrations
